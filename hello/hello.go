@@ -7,10 +7,30 @@ type Salutation struct {
 	greeting string
 }
 
-func greet(sal Salutation) {
+type Printer func(string)
+
+func Greet(sal Salutation, do Printer) {
 	message, altmessage := CreateMessage(sal.name, sal.greeting, "yo")
-	fmt.Println(altmessage)
-	fmt.Println(message)
+	do(message)
+	do(altmessage)
+}
+
+func Print(s string) {
+	fmt.Print(s)
+}
+
+func PrintLine(s string) {
+	fmt.Println(s)
+}
+
+func createPrintFunction(custom string) Printer {
+	return func(s string) {
+		fmt.Println(s + custom)
+	}
+}
+
+func PrintCustomLine(s string, custom string) {
+	fmt.Println(s + custom)
 }
 
 func CreateMessage(name string, greeting ...string) (message string, altmessage string) {
@@ -24,5 +44,5 @@ func main() {
 	var salute = Salutation{}
 	salute.name = "chx"
 	salute.greeting = "hello there"
-	greet(salute)
+	Greet(salute, createPrintFunction("custom CreateMessage"))
 }
