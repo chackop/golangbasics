@@ -8,13 +8,14 @@ type Salutation struct {
 }
 
 func greet(sal Salutation) {
-	message, altmessage := CreateMessage(sal.name, sal.greeting)
+	message, altmessage := CreateMessage(sal.name, sal.greeting, "yo")
 	fmt.Println(altmessage)
 	fmt.Println(message)
 }
 
-func CreateMessage(name, greeting string) (message string, altmessage string) {
-	message = greeting + " " + name
+func CreateMessage(name string, greeting ...string) (message string, altmessage string) {
+	fmt.Println(len(greeting))
+	message = greeting[1] + " " + name
 	altmessage = "Hey alternate " + name
 	return
 }
