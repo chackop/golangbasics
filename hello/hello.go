@@ -7,22 +7,21 @@ type Salutation struct {
 	greeting string
 }
 
-const (
-	pi       = 3.14
-	language = "GO"
-)
+func greet(sal Salutation) {
+	message, altmessage := CreateMessage(sal.name, sal.greeting)
+	fmt.Println(altmessage)
+	fmt.Println(message)
+}
 
-const (
-	A = iota
-	B
-	C
-)
+func CreateMessage(name, greeting string) (message string, altmessage string) {
+	message = greeting + " " + name
+	altmessage = "Hey alternate " + name
+	return
+}
 
 func main() {
 	var salute = Salutation{}
 	salute.name = "chx"
-	salute.greeting = "hello chx"
-	fmt.Println(salute.name, salute.greeting)
-	fmt.Println(pi, language)
-	fmt.Println(A, B, C)
+	salute.greeting = "hello there"
+	greet(salute)
 }
