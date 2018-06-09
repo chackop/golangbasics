@@ -34,18 +34,32 @@ func main() {
 	// RenameToFrog(&salutes[0])
 
 	fmt.Fprintf(&salutes[0], "the count is %d", 10)
-	done := make(chan bool, 2)
-	go func() {
-		salutes.Greet(greeting.CreatePrintFunction("<CONC>"), true, 5)
-		done <- true
-		done <- true
-		fmt.Println("Done!")
-	}()
+	ch := make(chan greeting.Salutation)
+	ch2 := make(chan greeting.Salutation)
+	go salutes.ChannelGreeter(ch)
+	go salutes.ChannelGreeter(ch2)
 
-	salutes.Greet(greeting.CreatePrintFunction("custom CreateMessage"), true, 5)
-	<-done
-	// salute.Name = "Bob"
-	// salute.Greeting = "hello there"
-	// greeting.Greet(salute, greeting.CreatePrintFunction("custom CreateMessage"), true, 5)
-	// greeting.TypeSwitchTest(salute)
+	for {
+		select {
+		case s, ok := <-ch:
+			if ok {
+				fmt.Println(s, ":1")
+			} else {
+				return
+			}
+
+		case s, ok := <-ch2:
+			if ok {
+				fmt.Println(s, ":2")
+			} else {
+				return
+			}
+		default:
+			fmt.Println("Waiting")
+		}
+
+	}
+	// for s := range ch {
+	// 	fmt.Println(s.Name)
+	// }
 }
