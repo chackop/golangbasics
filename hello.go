@@ -1,6 +1,13 @@
 package main
 
-import "golangbasics/greeting"
+import (
+	"fmt"
+	"golangbasics/greeting"
+)
+
+func RenameToFrog(r greeting.Renamable) {
+	r.Rename("Frog")
+}
 
 func main() {
 	// var salute = greeting.Salutation{}
@@ -10,17 +17,24 @@ func main() {
 	// sl[1] = 10
 	// sl[2] = 200
 
-	slice := []greeting.Salutation{
+	salutes := greeting.Salutations{
 		{"chx", "Hey"},
 		{"dimps", "mhhmmm"},
 		{"chacko", "hellos"},
 	}
 
-	slice = append(slice[:1], slice[2:]...)
+	// slice = append(slice[:1], slice[2:]...)
 
 	// slice = slice[1:]
 
-	greeting.Greet(slice, greeting.CreatePrintFunction("custom CreateMessage"), true, 5)
+	// greeting.Greet(slice, greeting.CreatePrintFunction("custom CreateMessage"), true, 5)
+
+	// salutes[0].Rename("John")
+
+	// RenameToFrog(&salutes[0])
+
+	fmt.Fprintf(&salutes[0], "the count is %d", 10)
+	salutes.Greet(greeting.CreatePrintFunction("custom CreateMessage"), true, 5)
 
 	// salute.Name = "Bob"
 	// salute.Greeting = "hello there"
