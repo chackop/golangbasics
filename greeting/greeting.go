@@ -22,17 +22,23 @@ func Greet(sal []Salutation, do Printer, isFormal bool, times int) {
 }
 
 func GetPrefix(name string) (prefix string) {
-	switch {
-	case name == "chx":
-		prefix = "Mr "
-		fallthrough
-	case name == "Chacko", name == "chacs":
-		prefix = "Dr "
-	case name == "Dimps", len(name) == 10:
-		prefix = "Mrs "
-	default:
-		prefix = "Hey all"
+
+	prefixMap := map[string]string{
+		"chx":       "Mr ",
+		"dimps":     "Mrs",
+		"dimpschax": "MrMrs",
 	}
+
+	prefixMap["Amir"] = "Jr "
+
+	delete(prefixMap, "dimps")
+
+	if value, exists := prefixMap[name]; exists {
+		return value
+	}
+
+	return prefixMap[name]
+
 	return
 }
 
