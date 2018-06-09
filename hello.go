@@ -34,8 +34,14 @@ func main() {
 	// RenameToFrog(&salutes[0])
 
 	fmt.Fprintf(&salutes[0], "the count is %d", 10)
-	salutes.Greet(greeting.CreatePrintFunction("custom CreateMessage"), true, 5)
+	done := make(chan bool)
+	go func() {
+		salutes.Greet(greeting.CreatePrintFunction("<CONC>"), true, 5)
+		done <- true
+	}()
 
+	salutes.Greet(greeting.CreatePrintFunction("custom CreateMessage"), true, 5)
+	<-done
 	// salute.Name = "Bob"
 	// salute.Greeting = "hello there"
 	// greeting.Greet(salute, greeting.CreatePrintFunction("custom CreateMessage"), true, 5)
